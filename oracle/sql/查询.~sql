@@ -73,7 +73,7 @@ select * from emp where sal >=1500 and sal <=3000;
 --需要进行某些值的等值判断的时候可以使用in和not in
 --in（list），
 select * from emp where deptno in(10,20);
-select * from dept;
+
 select ename, sal, deptno
   from emp
  where deptno in (select deptno
@@ -102,6 +102,14 @@ select *
           from dept d
          where (deptno = 10 or deptno = 20)
            and e.deptno = d.deptno);
+           
+           
+--
+select ename ,sal, deptno from emp where exists (select deptno
+                    from dept
+                   where (dname = 'SALES'
+                      or dname = 'RESEARCH') and emp.deptno = dept.deptno
+                     )
            
 /*
 模糊查询：

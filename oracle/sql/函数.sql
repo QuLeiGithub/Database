@@ -112,7 +112,14 @@ trunc(sysdate)+(interval '01:02' hour to minute), --加指定小时到分钟
 trunc(sysdate)+(interval '2 01:02' day to minute) --加指定天数到分钟
 from dual;
 
+select * from emp e  where substr(extract(YEAR from  hiredate),3,2) = 82;
 
+select extract(YEAR from hiredate) from emp;
+
+select substr(extract(YEAR from  hiredate),2,3) from emp;
+
+select * from emp where (extract(YEAR FROM sysdate) - extract(YEAR FROM hiredate))>=37;
+select extract(YEAR FROM sysdate) - extract(YEAR FROM hiredate) from emp;
 /*
 
 转换函数
@@ -123,7 +130,7 @@ from dual;
 */
 select '999'+10 from dual;
 --date ：to_char
-select to_char(sysdate,'YYYY-MI-SS HH24:MI:SS') from dual;
+select to_char(sysdate,'YYYY-MI-SS HH24:MI:SS') 时间 from dual;
 -- number : to_char
 select to_char(123.456789,'9999') from dual;
 select to_char(123.456789,'0000.00') from dual;
@@ -145,7 +152,12 @@ select hiredate,next_day(add_months(hiredate,6),'星期五') from emp;
 --decode,case when
 
 --给不同部门的人员涨薪，10部门涨10%，20部门涨20%，30部门涨30%
-select ename,sal,deptno,decode(deptno,10,sal*1.1,20,sal*1.2,30,sal*1.3) from emp;
+select ename,
+       sal,
+       deptno,
+       decode(deptno, 10, sal * 1.1, 20, sal * 1.2, 30, sal * 1.3)
+  from emp;
+  
 select ename,
        sal,
        deptno,
@@ -158,7 +170,9 @@ select ename,
           sal * 1.3
        end
   from emp;
+  
 ------------------------------
+
 
 create table test(
    id number(10) primary key,
@@ -190,8 +204,8 @@ select decode(type, 1, value) 姓名,
        decode(type, 2, value) 性别,
        decode(type, 3, value) 年龄
   from test;
-select min(decode(type, 1, value)) 姓名,
-       min(decode(type, 2, value)) 性别,
+select max(decode(type, 1, value)) 姓名,
+       max(decode(type, 2, value)) 性别,
        min(decode(type, 3, value)) 年龄
   from test group by t_id; 
 
@@ -205,7 +219,7 @@ max()  最大值，适用于任何类型
 count() 记录数,处理的时候会跳过空值而处理非空值
     count一般用来获取表中的记录条数，获取条数的时候可以使用*或者某一个具体的列
        甚至可以使用纯数字来代替，但是从运行效率的角度考虑，建议使用数字或者某一个具体的列
-       而不要使用*
+       而不要使用* 
        
 sum()   求和，只适合数值类型的数据
 */
@@ -220,12 +234,25 @@ select sum(sal) from emp;
 --求每个部门的平均薪水
 select avg(sal) from emp group by deptno;
 --求平均新书大于2000的部门
-select avg(sal),deptno from emp where sal is not null group by deptno having avg(sal) >2000 order by avg(sal);
+select avg(sal), deptno
+  from emp
+ where sal is not null
+ group by deptno
+having avg(sal) > 2000
+ order by avg(sal);
+ 
+ select count(1) 总条数 from emp;
+ 
+ select * from emp where comm is not null;
+ 
+ select avg(sal) from emp group by deptno having  
 
 select count(10000) from emp;
 --部门下雇员的工资>2000 人数
 select deptno,count(1) from emp where sal>2000 group by deptno
 --部门薪水最高
+select deptno,max(sal) from emp group by deptno;
+
 select deptno,max(sal) from emp group by deptno;
 --部门里面 工龄最小和最大的人找出来,知道姓名
 select deptno,min(hiredate),max(hiredate) from emp group by deptno;
@@ -236,7 +263,7 @@ select ename, deptno
 select * from emp
 
 select mm2.deptno, e1.ename, e1.hiredate
-  from emp e1,
+  from emp e1, 
        (select min(e.hiredate) mind, max(e.hiredate) maxd, e.deptno
           from emp e
          group by e.deptno) mm2

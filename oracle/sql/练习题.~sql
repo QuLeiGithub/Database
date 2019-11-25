@@ -1,0 +1,36 @@
+--查询20号部门的所有员工信息
+select * from emp where deptno=20
+--查询所有工种为CLERK的员工的工号、员工名和部门名
+select empno,ename,deptno from emp where job = 'CLERK'
+--查询奖金（COMM）高于工资（SAL）的员工信息
+select * from emp where nvl(comm,0) > sal
+--查询奖金高于工资的20%的员工信息
+select *  from emp where nvl(comm,0) > sal*0.2
+--查询10号部门中工种为MANAGER和20号部门中工种为CLERK的员工的信息
+select * from emp where (job='MANAGER' and deptno=10) or (job='CLERK' and deptno=20);
+--查询所有工种不是MANAGER和CLERK，且工资大于或等于2000的员工的详细信息
+select * from emp where job not in ('MANAGER','CLERK') and sal >= 2000;
+select *
+  from emp
+ where job != 'MANAGER'
+   and job != 'CLERK'
+   and sal >= 2000;
+   
+select *
+  from emp
+ where job <> 'MANAGER'
+   and job <> 'CLERK'
+   and sal >= 2000;
+   
+--查询有奖金的员工的不同工种
+select distinct job from emp where comm is not null
+--查询所有员工工资和奖金的和
+select sum(sal)+sum(nvl(comm,0)) 工资和奖金和 from emp
+--查询没有奖金或奖金低于100的员工信息
+select  * from emp where comm is null or comm <100
+--查询各月倒数第2天入职的员工信息
+select * from emp where  hiredate 
+
+
+
+

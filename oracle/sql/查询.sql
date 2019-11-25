@@ -39,6 +39,10 @@ like  _ ,%,escape กฎ\กฎ   _\% escape กฎ\กฏ
 -- =
 select * from emp where deptno = 20;
 
+select * from dept;
+
+desc dept;
+
 -- !=  <>
 select * from emp where deptno != 20;
 select * from emp where deptno <> 20;
